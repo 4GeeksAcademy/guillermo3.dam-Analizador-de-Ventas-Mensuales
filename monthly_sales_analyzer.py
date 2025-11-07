@@ -24,28 +24,70 @@ sales_data = [
 
 def total_sales_by_product(data, product_key):
     """Calculates the total sales of a specific product in 30 days."""
-    pass
+    total = 0
+    for item in data:
+        total += item[product_key]
+    return total
+    # return sum(item[product_key] for item in data)
+
 
 
 def average_daily_sales(data, product_key):
     """Calculates the average daily sales of a specific product."""
-    pass
+    return total_sales_by_product(data, product_key) / len(data)
 
 
 def best_selling_day(data):
     """Finds the day with the highest total sales."""
-    pass
+    best_day = None
+    highest_sales = 0
+
+    for item in data:
+        total_day_sales = item["product_a"] + item["product_b"] + item["product_c"]
+        if total_day_sales > highest_sales:
+            highest_sales = total_day_sales
+            best_day = item["day"]
+
+    return best_day
+
+    # return max(data, key=lambda x: x["product_a"] + x["product_b"] + x["product_c"])["day"]
+    # lambda es una especie de funcion sin nombre (no volveremos a usar) para calcular el total de ventas de cada dia
+    # la x es el nombre generico que representa cada elemento (diccionario) de la lista y solo existe dentro de la funcion lambda (dentro del key)
+    # max() devuelve el diccionario con la mayor suma de ventas, y luego se obtiene el número del dia con ["day"]
+
 
 
 def days_above_threshold(data, product_key, threshold):
     """Counts how many days the sales of a product exceeded a given threshold."""
-    pass
-
+    count = 0
+    for item in data:
+        if item[product_key] > threshold:
+            count += 1
+    return count
+    # return sum(1 for item in data if item[product_key] > threshold) "crea" un 1 por cada vez que el item supera el umbral y lo suma
 
 def top_product(data):
     """Determines which product had the highest total sales in 30 days."""
-    pass
+    total_a = total_sales_by_product(data, "product_a")
+    total_b = total_sales_by_product(data, "product_b")
+    total_c = total_sales_by_product(data, "product_c")
 
+    if total_a > total_b and total_a > total_c:
+        return "product_a"
+    elif total_b > total_a and total_b > total_c:
+        return "product_b"
+    else:
+        return "product_c"
+    
+
+
+    # return max(["product_a", "product_b", "product_c"], key=lambda x: total_sales_by_product(data, x))
+
+    # La lista contiene los nombres de los productos
+    # Estos nombres se van pasando uno por uno a la funcion lambda (como x)
+    # calcula el total de ventas de cada producto usando su nombre (x) con la funcion lambda
+    # max() usa esos totales (valores numericos) solo para comparar quién tiene mas ventas
+    # pero devuelve el elemento original de la lista (el nombre del producto) que genero el numero mas alto.
 
 
 # Function tests
